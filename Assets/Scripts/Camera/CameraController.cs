@@ -21,11 +21,13 @@ namespace MyGame.Camera
 
         protected void LateUpdate()
         {
-            Vector3 targetRotate = _rotationOffset - _followCameraOffset;
+            if (_player != null)
+            {
+                Vector3 targetRotate = _rotationOffset - _followCameraOffset;
 
-            transform.position = _player.transform.position + _followCameraOffset;
-            transform.rotation = Quaternion.LookRotation(targetRotate, Vector3.up);
-
+                transform.position = _player.transform.position + _followCameraOffset;
+                transform.rotation = Quaternion.LookRotation(targetRotate, Vector3.up);
+            }
         }
     }
 }

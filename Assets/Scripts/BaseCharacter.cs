@@ -1,11 +1,12 @@
 using MyGame.Movement;
+using MyGame.PickUp;
 using MyGame.Shooting;
 using UnityEngine;
 
 namespace MyGame
 {
     [RequireComponent(typeof(CharacterMovementController), typeof(ShootingController))]
-    public class BaseCharacter : MonoBehaviour
+    public abstract class BaseCharacter : MonoBehaviour
     {
         [SerializeField]
         private Weapon _baseWeaponPrefab;
@@ -14,7 +15,7 @@ namespace MyGame
         private Transform _hand;
 
         [SerializeField]
-        private float _health = 10f;
+        private float _health = 50f;
 
         private IMovementDirectionSource _movementDirectionSource;
 
@@ -31,7 +32,7 @@ namespace MyGame
 
         protected void Start()
         {
-            _shootingController.SetWeapon(_baseWeaponPrefab, _hand);
+            SetWeapon(_baseWeaponPrefab);
         }
 
         protected void Update()
@@ -50,7 +51,7 @@ namespace MyGame
 
         protected void OnTriggerEnter(Collider other)
         {
-            if (LayerUtils.IsBullet(other.gameObject))
+            if (LayerUtils.IsBullet(other.gameObject))          // Проверяем если персонаж сталкивается с пулей
             {
                 var bullet = other.gameObject.GetComponent<Bullet>();
 
@@ -58,6 +59,23 @@ namespace MyGame
 
                 Destroy(other.gameObject);
             }
+            else if(LayerUtils.IsPickUp(other.gameObject))      // Проверяем если сталкиваемся не с пулей, а с подбираемым объектом
+            {
+                var pickUp = other.gameObject.GetComponent<PickUpItem>();
+                pickUp.PickUp(this);
+
+                Destroy(other.gameObject);                      // Уничтожаем ГО оружия после того как подобрали его
+            }
+        }
+
+        public void SetWeapon(Weapon weapon)
+        {
+            _shootingController.SetWeapon(weapon, _hand);
+        }
+
+        public void Boost(float boostTime, float boostSpeed)
+        {
+            _characterMovementController.Boost(boostTime, boostSpeed);
         }
     }
 }
