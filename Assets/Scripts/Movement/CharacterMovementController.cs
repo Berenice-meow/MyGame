@@ -10,14 +10,15 @@ namespace MyGame.Movement
         [SerializeField]                        // Атрибут, используемый для изменения приватных полей в Инспекторе
         private float _speed = 5f;              // Character's speed
         [SerializeField]
-        private byte _speedUp = 2;              // Ускорение в n раз
-        [SerializeField]
         private float _maxRadiansDelta = 10f;   // Rotation speed
 
         public Vector3 MovementDirection { get; set; }
         public Vector3 LookDirection { get; set; }
 
         private CharacterController _characterController;
+
+        private float _boostTime;
+        private float _boostSpeed;
 
         protected void Awake()
         {
@@ -34,12 +35,14 @@ namespace MyGame.Movement
         private void Translate() 
         {
             var delta = MovementDirection * _speed * Time.deltaTime;    // Time.deltaTime (вспомогательное поле в Юнити) - время, прошедшее с предыдущего кадра
-            
-            if (Input.GetKey(KeyCode.Space))                            // Добавили ускорение при нажатии пробела
-                delta *= _speedUp;
+
+            if (_boostTime > 0)
+            {
+                _boostTime -= Time.deltaTime;
+                delta *= _boostSpeed;
+            }
 
             _characterController.Move(delta);
-            
         }
 
         private void Rotate()
@@ -56,6 +59,12 @@ namespace MyGame.Movement
 
                 transform.rotation = newRotation;
             }    
+        }
+
+        public void Boost(float boostTime, float boostSpeed)
+        {
+            _boostTime = boostTime;
+            _boostSpeed = boostSpeed;
         }
     }
 }

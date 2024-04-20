@@ -35,6 +35,9 @@ namespace MyGame.Shooting
 
         public void SetWeapon(Weapon weaponPrefab, Transform hand)
         {
+            if (_weapon != null)
+                Destroy(_weapon.gameObject);
+
             _weapon = Instantiate(weaponPrefab, hand);
             _weapon.transform.localPosition = Vector3.zero;
             _weapon.transform.localRotation = Quaternion.identity;
@@ -49,7 +52,7 @@ namespace MyGame.Shooting
             var mask = LayerUtils.AimMask;
 
             var size = Physics.OverlapSphereNonAlloc(position, radius, _colliders, mask);    // Данный метод возвращает количество найденных коллайдеров. Для [2]: мб 0, 1 или 2
-            if (size > 0 )
+            if (size > 1 )
             {
                 for (int i = 0; i < size; i++)
                 {
