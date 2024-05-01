@@ -8,19 +8,22 @@ namespace MyGame
     [RequireComponent(typeof(CharacterMovementController), typeof(ShootingController))]
     public abstract class BaseCharacter : MonoBehaviour
     {
-        [SerializeField]
-        private Weapon _baseWeaponPrefab;
+        [SerializeField] private Weapon _baseWeaponPrefab;
 
-        [SerializeField]
-        private Transform _hand;
+        [SerializeField] private Transform _hand;
 
-        [SerializeField]
-        private float _health = 50f;
+        [SerializeField] private float _maxHp = 50f;
+
+        [SerializeField] private float _lowHpCoefficient = 30f;
+
+        private float _currentHp;
+        private float _lowHp;
+        public bool IsHpLow = false;
 
         private IMovementDirectionSource _movementDirectionSource;
-
         private CharacterMovementController _characterMovementController;
         private ShootingController _shootingController;
+        private Weapon _currentWeapon;
 
         protected void Awake()
         {
@@ -28,11 +31,16 @@ namespace MyGame
 
             _characterMovementController = GetComponent<CharacterMovementController>();
             _shootingController = GetComponent<ShootingController>();
+
+            _currentHp = _maxHp;
+            _lowHp = _maxHp * _lowHpCoefficient / 100;
+
+            _currentWeapon = _baseWeaponPrefab;
         }
 
         protected void Start()
         {
-            SetWeapon(_baseWeaponPrefab);
+            SetWeapon(_currentWeapon); 
         }
 
         protected void Update()
@@ -45,7 +53,10 @@ namespace MyGame
             _characterMovementController.MovementDirection = direction;
             _characterMovementController.LookDirection = lookDirection;
 
-            if (_health <= 0f)
+            if (_currentHp <= _lowHp)
+                IsHpLow = true;
+
+            if (_currentHp <= 0f)
                 Destroy(gameObject);
         }
 
@@ -55,7 +66,7 @@ namespace MyGame
             {
                 var bullet = other.gameObject.GetComponent<Bullet>();
 
-                _health -= bullet.Damage;
+                _currentHp -= bullet.Damage;
 
                 Destroy(other.gameObject);
             }
@@ -71,11 +82,24 @@ namespace MyGame
         public void SetWeapon(Weapon weapon)
         {
             _shootingController.SetWeapon(weapon, _hand);
+            _currentWeapon = weapon;
+        }
+
+        public bool AlreadyHasNewWeapon()
+        {
+            if (_currentWeapon != _baseWeaponPrefab) 
+                return true;
+            else return false;
         }
 
         public void Boost(float boostTime, float boostSpeed)
         {
             _characterMovementController.Boost(boostTime, boostSpeed);
+        }
+
+        public void FleeBoost(bool IsFleeing)
+        {
+            _characterMovementController.FleeBoost(IsFleeing);
         }
     }
 }

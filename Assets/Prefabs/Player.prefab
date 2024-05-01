@@ -146,7 +146,7 @@ Transform:
   m_GameObject: {fileID: 7821079617702691192}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -225,8 +225,8 @@ CharacterController:
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_SlopeLimit: 15
+  m_StepOffset: 0.2
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -242,8 +242,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 482a4ad70a817fb45b12e9d2f94b61ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 1
+  _baseSpeed: 5
+  _currentSpeed: 0
   _maxRadiansDelta: 10
+  _fleeBoost: 3
 --- !u!114 &2554045527900086007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,9 +258,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d2f150fc829b97459ae5c4ba669add8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseWeaponPrefab: {fileID: -5256967774762248057, guid: 5fb0347aa10f55a42b9f1285551a8635, type: 3}
+  _baseWeaponPrefab: {fileID: -2050672559098558440, guid: d66f238d1516a3945b716cf99a4ec3ed, type: 3}
   _hand: {fileID: 2869412760653568574}
-  _health: 10
+  _maxHp: 50
+  _lowHpCoefficient: 30
+  IsHpLow: 0
 --- !u!114 &4555786276380101530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa17835fbd53d14d94f587a2302a721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speedUp: 2
 --- !u!114 &4122945640881757056
 MonoBehaviour:
   m_ObjectHideFlags: 0

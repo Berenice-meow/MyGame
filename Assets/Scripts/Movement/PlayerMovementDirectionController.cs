@@ -5,8 +5,7 @@ namespace MyGame.Movement
 {
     public class PlayerMovementDirectionController : MonoBehaviour, IMovementDirectionSource    //Реализуем Интерфейс iMovementDirection
     {
-        [SerializeField]
-        private byte _speedUp = 2;          // Ускорение в n раз
+        [SerializeField] private byte _speedUp = 2;          // Ускорение в n раз
 
         private UnityEngine.Camera _camera; // Прописываем UnityEngine, чтобы указать что нам нужна именно юнитивская камера
 

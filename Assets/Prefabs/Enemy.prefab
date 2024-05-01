@@ -11,11 +11,12 @@ GameObject:
   - component: {fileID: 7009996796019950472}
   - component: {fileID: 1758468484435890914}
   - component: {fileID: 3962918573037019430}
-  - component: {fileID: 91671883806314252}
   - component: {fileID: 7217297778112680068}
   - component: {fileID: 8265784507996013776}
   - component: {fileID: -6929287975850757335}
   - component: {fileID: 5172160363298749656}
+  - component: {fileID: 5951770407157460863}
+  - component: {fileID: 1430699483267651382}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 4126664134513380694}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.2, y: 1, z: -2.99}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -90,18 +91,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &91671883806314252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126664134513380694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d75d6d2c33de37540a6abd26b07eb751, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!143 &7217297778112680068
 CharacterController:
   m_ObjectHideFlags: 0
@@ -123,8 +112,8 @@ CharacterController:
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_SlopeLimit: 15
+  m_StepOffset: 0.2
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -140,8 +129,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 482a4ad70a817fb45b12e9d2f94b61ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  _baseSpeed: 5
+  _currentSpeed: 0
   _maxRadiansDelta: 10
+  _fleeBoost: 3
 --- !u!114 &-6929287975850757335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,7 +159,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseWeaponPrefab: {fileID: -2050672559098558440, guid: d66f238d1516a3945b716cf99a4ec3ed, type: 3}
   _hand: {fileID: 1029827089291316834}
-  _health: 10
+  _maxHp: 50
+  _lowHpCoefficient: 30
+  IsHpLow: 0
+--- !u!114 &5951770407157460863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126664134513380694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cc50eac61f43f44d875839a61748aea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1430699483267651382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126664134513380694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e06c6593e7e0d64dbf32510f831343d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _viewRadius: 100
 --- !u!1 &4161562362658918771
 GameObject:
   m_ObjectHideFlags: 0

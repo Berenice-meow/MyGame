@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1245700154558068187}
   - component: {fileID: 114918440769258755}
   - component: {fileID: 6145211892023652663}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: BoostBonus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
