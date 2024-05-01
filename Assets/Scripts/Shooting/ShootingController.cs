@@ -49,7 +49,7 @@ namespace MyGame.Shooting
 
             var position = _weapon.transform.position;
             var radius = _weapon.ShootRadius;
-            var mask = LayerUtils.AimMask;
+            var mask = LayerUtils.CharactersMask;
 
             var size = Physics.OverlapSphereNonAlloc(position, radius, _colliders, mask);    // Данный метод возвращает количество найденных коллайдеров. Для [2]: мб 0, 1 или 2
             if (size > 1 )

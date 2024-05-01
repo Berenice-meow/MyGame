@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using MyGame.Enemy.States;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.AI;
 
 namespace MyGame.Movement
 {
@@ -7,22 +10,30 @@ namespace MyGame.Movement
     {
         private static readonly float SqrEpsilon = Mathf.Epsilon * Mathf.Epsilon;   //Задали статичное неизменяемое поле
 
-        [SerializeField]                        // Атрибут, используемый для изменения приватных полей в Инспекторе
-        private float _speed = 5f;              // Character's speed
-        [SerializeField]
-        private float _maxRadiansDelta = 10f;   // Rotation speed
+        [SerializeField] private float _baseSpeed = 5f;                             // Character's speed
+
+        [SerializeField] private float _currentSpeed;
+
+        [SerializeField] private float _maxRadiansDelta = 10f;                      // Rotation speed
+        
+        [SerializeField] private float _fleeBoost = 3f;
+
+        private float _fleeSpeed;
+        private float _boostTime;
+        private float _boostSpeed;
 
         public Vector3 MovementDirection { get; set; }
         public Vector3 LookDirection { get; set; }
 
         private CharacterController _characterController;
 
-        private float _boostTime;
-        private float _boostSpeed;
 
         protected void Awake()
         {
             _characterController = GetComponent<CharacterController>();
+
+            _currentSpeed = _baseSpeed;
+            _fleeSpeed = _currentSpeed + _fleeBoost;
         }
 
         protected void Update()
@@ -34,7 +45,7 @@ namespace MyGame.Movement
 
         private void Translate() 
         {
-            var delta = MovementDirection * _speed * Time.deltaTime;    // Time.deltaTime (вспомогательное поле в Юнити) - время, прошедшее с предыдущего кадра
+            var delta = MovementDirection * _currentSpeed * Time.deltaTime;    // Time.deltaTime (вспомогательное поле в Юнити) - время, прошедшее с предыдущего кадра
 
             if (_boostTime > 0)
             {
@@ -65,6 +76,14 @@ namespace MyGame.Movement
         {
             _boostTime = boostTime;
             _boostSpeed = boostSpeed;
+        }
+        
+        public void FleeBoost(bool IsFleeing)
+        {
+            if (IsFleeing == true)
+                _currentSpeed = _fleeSpeed;
+            else
+                _currentSpeed = _baseSpeed;
         }
     }
 }
