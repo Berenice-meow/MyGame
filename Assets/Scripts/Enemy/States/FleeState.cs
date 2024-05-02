@@ -1,7 +1,5 @@
 ﻿using MyGame.FSM;
-using MyGame.Movement;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 namespace MyGame.Enemy.States
 {
@@ -13,7 +11,7 @@ namespace MyGame.Enemy.States
 
         private Vector3 _currentPoint;
 
-        private bool IsFleeing = true;
+        private float _fleeSpeed = 6f;
 
         public FleeState(EnemyTarget target, EnemyDirectionController enemyDirectionController, BaseCharacter baseCharacter)
         {
@@ -31,7 +29,7 @@ namespace MyGame.Enemy.States
                 _currentPoint = targetPosition;
                 _enemyDirectionController.UpdateMovementDirection(-targetPosition);
 
-                _baseCharacter.FleeBoost(IsFleeing); 
+                _baseCharacter.FleeBoost(_fleeSpeed); 
             }
         }
     }

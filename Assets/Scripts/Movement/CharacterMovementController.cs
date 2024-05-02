@@ -1,7 +1,4 @@
-﻿using MyGame.Enemy.States;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.AI;
+﻿using UnityEngine;
 
 namespace MyGame.Movement
 {
@@ -10,15 +7,12 @@ namespace MyGame.Movement
     {
         private static readonly float SqrEpsilon = Mathf.Epsilon * Mathf.Epsilon;   //Задали статичное неизменяемое поле
 
-        [SerializeField] private float _baseSpeed = 5f;                             // Character's speed
-
-        [SerializeField] private float _currentSpeed;
-
         [SerializeField] private float _maxRadiansDelta = 10f;                      // Rotation speed
-        
-        [SerializeField] private float _fleeBoost = 3f;
 
-        private float _fleeSpeed;
+        [SerializeField] private float _baseSpeed = 3f;                             // Character's speed
+
+        private float _currentSpeed;
+        
         private float _boostTime;
         private float _boostSpeed;
 
@@ -27,13 +21,11 @@ namespace MyGame.Movement
 
         private CharacterController _characterController;
 
-
         protected void Awake()
         {
             _characterController = GetComponent<CharacterController>();
 
             _currentSpeed = _baseSpeed;
-            _fleeSpeed = _currentSpeed + _fleeBoost;
         }
 
         protected void Update()
@@ -78,10 +70,10 @@ namespace MyGame.Movement
             _boostSpeed = boostSpeed;
         }
         
-        public void FleeBoost(bool IsFleeing)
+        public void FleeBoost(float fleeSpeed)
         {
-            if (IsFleeing == true)
-                _currentSpeed = _fleeSpeed;
+            if (fleeSpeed != 0)
+                _currentSpeed = fleeSpeed;
             else
                 _currentSpeed = _baseSpeed;
         }
