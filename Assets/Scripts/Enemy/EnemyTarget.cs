@@ -25,24 +25,37 @@ namespace MyGame.Enemy
         {            
             float minDistance = float.MaxValue;
 
-            var count = FindAllTargets(LayerUtils.PickUpsMask | LayerUtils.CharactersMask);         // находим все цели среди подбираемых айтемов и других персонажей
-
-            for (int i = 0; i < count; i++)                    // проходим по всем найденным целям
+            if (_agent.AlreadyHasNewWeapon() == false)
             {
-                var go = _colliders[i].gameObject;
-                
-                if (go == _agentTransform.gameObject)           // проверяем что мы не цель для себя
-                    continue;
+                var count = FindAllTargets(LayerUtils.WeaponsMask);
 
-                if (LayerUtils.IsWeapon(go) && _agent.AlreadyHasNewWeapon() == true)
-                    continue;
-
-                var distance = DistanceFromAgentTo(go);
-
-                if (distance < minDistance)
+                for (int i = 0; i < count; i++)
                 {
-                    minDistance = distance;
-                    Closest = go;
+                    var go = _colliders[i].gameObject;
+                    var distance = DistanceFromAgentTo(go);
+                    if (distance < minDistance)
+                    {
+                        minDistance = distance;
+                        Closest = go;
+                    }
+                }
+            }
+            
+            else
+            {
+                var count = FindAllTargets(LayerUtils.BonusesMask | LayerUtils.CharactersMask);         // находим все цели среди подбираемых айтемов и других персонажей
+
+                for (int i = 0; i < count; i++)                    // проходим по всем найденным целям
+                {
+                    var go = _colliders[i].gameObject;
+                    if (go == _agentTransform.gameObject)           // проверяем что мы не цель для себя
+                        continue;
+                    var distance = DistanceFromAgentTo(go);
+                    if (distance < minDistance)
+                    {
+                        minDistance = distance;
+                        Closest = go;
+                    }
                 }
             }
 

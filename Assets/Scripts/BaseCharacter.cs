@@ -97,9 +97,9 @@ namespace MyGame
             _characterMovementController.Boost(boostTime, boostSpeed);
         }
 
-        public void FleeBoost(bool IsFleeing)
+        public void FleeBoost(float fleeSpeed)
         {
-            _characterMovementController.FleeBoost(IsFleeing);
+            _characterMovementController.FleeBoost(fleeSpeed);
         }
     }
 }

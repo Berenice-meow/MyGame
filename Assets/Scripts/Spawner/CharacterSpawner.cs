@@ -14,8 +14,36 @@ namespace MyGame.Spawner
 
         private float _currentSpawnTimerSec;
         private int _currentCount;
-        private bool _isPlayerSpawned;
+        private static bool _isPlayerSpawned;
 
+        private void Awake()
+        {
+            if (_currentCount < _maxCount)
+            {
+                _currentSpawnTimerSec += Time.deltaTime;
+
+                if (_currentSpawnTimerSec > _spawnIntervalSec)
+                {
+                    _spawnIntervalSec = Random.Range(_minSpawnIntervalSec, _maxSpawnIntervalSec);
+
+                    _currentSpawnTimerSec = 0f;
+                    _currentCount++;
+
+                    var randomPointInsideRange = Random.insideUnitCircle * _range;
+                    var randomPosition = new Vector3(randomPointInsideRange.x, 1, randomPointInsideRange.y) + transform.position;
+
+                    if (_isPlayerSpawned == false /*&& Random.Range(0, 2) == 0*/)
+                    {
+                        var player = Instantiate(_player, randomPosition, Quaternion.identity, transform);
+                        _isPlayerSpawned = true;
+                        player.OnSpawned += OnPlayerSpawned;
+                    }
+                    else
+                        Instantiate(_enemy, randomPosition, Quaternion.identity, transform);
+                }
+            }
+        }
+        
         protected void Update()
         {
             if (_currentCount < _maxCount)
@@ -32,18 +60,11 @@ namespace MyGame.Spawner
                     var randomPointInsideRange = Random.insideUnitCircle * _range;
                     var randomPosition = new Vector3(randomPointInsideRange.x, 1, randomPointInsideRange.y) + transform.position;
 
-                    if (_isPlayerSpawned == false && Random.Range(0, 2) == 0)
-                    {
-                        var player = Instantiate(_player, randomPosition, Quaternion.identity, transform);
-                        _isPlayerSpawned = true;
-                        player.OnSpawned += OnPlayerSpawned;
-                    }
-                        else
-                            Instantiate(_enemy, randomPosition, Quaternion.identity, transform);
+                    Instantiate(_enemy, randomPosition, Quaternion.identity, transform);
                 }
             }
         }
-
+        
         private void OnPlayerSpawned(PlayerCharacter player)
         {
             _currentCount--;

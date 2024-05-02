@@ -1,6 +1,4 @@
 ﻿using MyGame.FSM;
-using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 namespace MyGame.Enemy.States
 {
@@ -8,7 +6,7 @@ namespace MyGame.Enemy.States
     {
         private readonly BaseCharacter _baseCharacter;
 
-        private bool IsFleeing = false;
+        private float _fleeSpeed = 0f;
 
         public IdleState(BaseCharacter baseCharacter)
         {
@@ -17,7 +15,7 @@ namespace MyGame.Enemy.States
 
         public override void Execute()
         {
-            _baseCharacter.FleeBoost(IsFleeing);
+            _baseCharacter.FleeBoost(_fleeSpeed);
         }
     }
 }

@@ -19,7 +19,9 @@ namespace MyGame
         public static readonly int BonusLayer = LayerMask.NameToLayer(BonusLayerName);
 
         public static readonly int CharactersMask = LayerMask.GetMask(EnemyLayerName, PlayerLayerName);   // PlayerLayerName - можем целиться по игроку
-        public static readonly int PickUpsMask = LayerMask.GetMask(WeaponLayerName, BonusLayerName);
+        //public static readonly int PickUpsMask = LayerMask.GetMask(WeaponLayerName, BonusLayerName);
+        public static readonly int WeaponsMask = LayerMask.GetMask(WeaponLayerName);
+        public static readonly int BonusesMask = LayerMask.GetMask(BonusLayerName);
 
         public static bool IsBullet(GameObject other) => other.layer == BulletLayer;
         public static bool IsPickUp(GameObject other) => other.layer == WeaponLayer || other.layer == BonusLayer;
