@@ -11,7 +11,7 @@ namespace MyGame.Enemy.States
 
         private Vector3 _currentPoint;
 
-        private float _fleeSpeed = 6f;
+        private float _fleeSpeed = 7f;
 
         public FleeState(EnemyTarget target, EnemyDirectionController enemyDirectionController, BaseCharacter baseCharacter)
         {

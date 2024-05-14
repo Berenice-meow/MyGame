@@ -86,7 +86,7 @@ namespace MyGame.Enemy
 
         public bool IsTargetCharacter()
         {
-            if (LayerUtils.IsCharacter(Closest))
+            if (LayerUtils.IsCharacter(Closest) && Closest != null)
                 return true;
             else return false;
         }
