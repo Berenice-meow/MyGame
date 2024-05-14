@@ -1,6 +1,7 @@
 using MyGame.Movement;
 using MyGame.PickUp;
 using MyGame.Shooting;
+using System.Collections;
 using UnityEngine;
 
 namespace MyGame
@@ -8,6 +9,8 @@ namespace MyGame
     [RequireComponent(typeof(CharacterMovementController), typeof(ShootingController))]
     public abstract class BaseCharacter : MonoBehaviour
     {
+        [SerializeField] private Animator _animator;
+
         [SerializeField] private Weapon _baseWeaponPrefab;
 
         [SerializeField] private Transform _hand;
@@ -19,6 +22,7 @@ namespace MyGame
         private float _currentHp;
         private float _lowHp;
         public bool IsHpLow = false;
+        private bool _isDead = false;
 
         private IMovementDirectionSource _movementDirectionSource;
         private CharacterMovementController _characterMovementController;
@@ -53,11 +57,30 @@ namespace MyGame
             _characterMovementController.MovementDirection = direction;
             _characterMovementController.LookDirection = lookDirection;
 
+            _animator.SetBool("IsMoving", direction != Vector3.zero);
+            _animator.SetBool("IsShooting", _shootingController.HasTarget);
+            _animator.SetBool("IsBackwards", Mathf.Abs(Mathf.Sign(direction.z) - Mathf.Sign(lookDirection.z)) > Mathf.Epsilon);
+
             if (_currentHp <= _lowHp)
                 IsHpLow = true;
 
             if (_currentHp <= 0f)
-                Destroy(gameObject);
+            {
+                if (_isDead == false)
+                {
+                    _isDead = true;
+                    _shootingController.enabled = false;
+                    _characterMovementController.enabled = false;
+                    StartCoroutine(Death());
+                }
+            }
+        }
+
+        IEnumerator Death()
+        {
+            _animator.SetTrigger("Died");
+            yield return new WaitForSeconds(1.3f);
+            Destroy(gameObject);
         }
 
         protected void OnTriggerEnter(Collider other)

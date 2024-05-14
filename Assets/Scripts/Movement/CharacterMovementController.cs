@@ -9,7 +9,7 @@ namespace MyGame.Movement
 
         [SerializeField] private float _maxRadiansDelta = 10f;                      // Rotation speed
 
-        [SerializeField] private float _baseSpeed = 3f;                             // Character's speed
+        [SerializeField] private float _baseSpeed = 4f;                             // Character's speed
 
         private float _currentSpeed;
         

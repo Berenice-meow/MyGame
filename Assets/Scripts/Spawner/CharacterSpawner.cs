@@ -32,14 +32,12 @@ namespace MyGame.Spawner
                     var randomPointInsideRange = Random.insideUnitCircle * _range;
                     var randomPosition = new Vector3(randomPointInsideRange.x, 1, randomPointInsideRange.y) + transform.position;
 
-                    if (_isPlayerSpawned == false /*&& Random.Range(0, 2) == 0*/)
+                    if (_isPlayerSpawned == false && Random.Range(0, 2) == 0)
                     {
                         var player = Instantiate(_player, randomPosition, Quaternion.identity, transform);
                         _isPlayerSpawned = true;
                         player.OnSpawned += OnPlayerSpawned;
                     }
-                    else
-                        Instantiate(_enemy, randomPosition, Quaternion.identity, transform);
                 }
             }
         }

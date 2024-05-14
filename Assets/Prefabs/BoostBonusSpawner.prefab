@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 7406727169671246905}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 1, z: -3}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6409b3edb635f794eae3ed425f8d8d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pickUpPrefab: {fileID: 6145211892023652663, guid: 5407369f2852c92419f98fbed69f8931, type: 3}
-  _range: 15
-  _maxCount: 1
+  _range: 10
   _minSpawnIntervalSec: 10
-  _maxSpawnIntervalSec: 50
+  _maxSpawnIntervalSec: 30
+  _pickUpPrefab: {fileID: 6145211892023652663, guid: 5407369f2852c92419f98fbed69f8931, type: 3}
+  _maxCount: 2

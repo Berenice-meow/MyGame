@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6409b3edb635f794eae3ed425f8d8d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pickUpPrefab: {fileID: 4249641539458173894, guid: a65b1f7d0d8d888488967e17692491d8, type: 3}
-  _range: 3
-  _maxCount: 3
+  _range: 5
   _minSpawnIntervalSec: 1
   _maxSpawnIntervalSec: 10
+  _pickUpPrefab: {fileID: 4249641539458173894, guid: a65b1f7d0d8d888488967e17692491d8, type: 3}
+  _maxCount: 1
