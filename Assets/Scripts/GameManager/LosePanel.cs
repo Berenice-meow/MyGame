@@ -1,6 +1,4 @@
-﻿using MyGame.GameManager;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MyGame.GameManager
 {

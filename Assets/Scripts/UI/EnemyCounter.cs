@@ -8,8 +8,6 @@ namespace MyGame.UI
 {
     public class EnemyCounter : MonoBehaviour
     {
-        //GameObject[] enemies;
-
         [SerializeField] private TextMeshProUGUI _outputText;
         private string _format;
 
@@ -17,14 +15,12 @@ namespace MyGame.UI
 
         private void Start()
         {
-            //Enemies = FindObjectsOfType<EnemyCharacter>().ToList();
             _format = _outputText.text;
         }
 
         private void Update()
         {
             Enemies = FindObjectsOfType<EnemyCharacter>().ToList();
-            //Debug.Log(Enemies.Count);
             _outputText.text = string.Format(_format, Enemies.Count.ToString());
         }
     }
