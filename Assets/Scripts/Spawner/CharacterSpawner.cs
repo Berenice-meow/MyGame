@@ -10,38 +10,37 @@ namespace MyGame.Spawner
 
         [SerializeField] private EnemyCharacter _enemy;
 
-        [SerializeField] private int _maxCount = 5;                 
+        [SerializeField] private int _maxCount = 3;                 
 
         private float _currentSpawnTimerSec;
         private int _currentCount;
-        private static bool _isPlayerSpawned;
+        public static bool _isPlayerAlive;
 
-        private void Awake()
-        {
-            if (_currentCount < _maxCount)
+        protected void Awake()
+        {  
+            for (_currentCount = 0; _currentCount < _maxCount; _currentCount ++)
             {
-                _currentSpawnTimerSec += Time.deltaTime;
-
-                if (_currentSpawnTimerSec > _spawnIntervalSec)
+                if (_isPlayerAlive == false && Random.Range(0, 2) == 0)
                 {
-                    _spawnIntervalSec = Random.Range(_minSpawnIntervalSec, _maxSpawnIntervalSec);
-
-                    _currentSpawnTimerSec = 0f;
-                    _currentCount++;
-
                     var randomPointInsideRange = Random.insideUnitCircle * _range;
                     var randomPosition = new Vector3(randomPointInsideRange.x, 1, randomPointInsideRange.y) + transform.position;
 
-                    if (_isPlayerSpawned == false && Random.Range(0, 2) == 0)
-                    {
-                        var player = Instantiate(_player, randomPosition, Quaternion.identity, transform);
-                        _isPlayerSpawned = true;
-                        player.OnSpawned += OnPlayerSpawned;
-                    }
+                    var character = Instantiate(_player, randomPosition, Quaternion.identity);
+                    _isPlayerAlive = true;
+                    character.OnSpawned += OnCharacterSpawned;
+                }
+                else
+                {
+                    var randomPointInsideRange = Random.insideUnitCircle * _range;
+                    var randomPosition = new Vector3(randomPointInsideRange.x, 1, randomPointInsideRange.y) + transform.position;
+
+                    var character = Instantiate(_enemy, randomPosition, Quaternion.identity);
+                    character.OnSpawned += OnCharacterSpawned;
                 }
             }
         }
-        
+
+        /*
         protected void Update()
         {
             if (_currentCount < _maxCount)
@@ -58,15 +57,17 @@ namespace MyGame.Spawner
                     var randomPointInsideRange = Random.insideUnitCircle * _range;
                     var randomPosition = new Vector3(randomPointInsideRange.x, 1, randomPointInsideRange.y) + transform.position;
 
-                    Instantiate(_enemy, randomPosition, Quaternion.identity, transform);
+                    var character = Instantiate(_enemy, randomPosition, Quaternion.identity);
+                    character.OnSpawned += OnCharacterSpawned;
                 }
             }
         }
-        
-        private void OnPlayerSpawned(PlayerCharacter player)
+        */
+
+        private void OnCharacterSpawned(BaseCharacter character)
         {
             _currentCount--;
-            player.OnSpawned -= OnPlayerSpawned;
+            character.OnSpawned -= OnCharacterSpawned;
         }
 
         protected override void OnDrawGizmos()           

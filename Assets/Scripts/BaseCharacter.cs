@@ -1,6 +1,9 @@
 using MyGame.Movement;
 using MyGame.PickUp;
 using MyGame.Shooting;
+using MyGame.Spawner;
+using MyGame.UI;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -28,6 +31,14 @@ namespace MyGame
         private CharacterMovementController _characterMovementController;
         private ShootingController _shootingController;
         private Weapon _currentWeapon;
+
+        public event Action<BaseCharacter> Dead;
+
+        public event Action<BaseCharacter> OnSpawned;
+
+        public CharacterSpawner _isPlayerSpawned;
+
+        public HealthBar healthBar;
 
         protected void Awake()
         {
@@ -61,6 +72,8 @@ namespace MyGame
             _animator.SetBool("IsShooting", _shootingController.HasTarget);
             _animator.SetBool("IsBackwards", Mathf.Abs(Mathf.Sign(direction.z) - Mathf.Sign(lookDirection.z)) > Mathf.Epsilon);
 
+            healthBar.UpdateHealthBar(_maxHp, _currentHp);
+
             if (_currentHp <= _lowHp)
                 IsHpLow = true;
 
@@ -75,12 +88,21 @@ namespace MyGame
                 }
             }
         }
-
+        
+        public void Spawn(BaseCharacter character)
+        {
+            OnSpawned?.Invoke(this);
+        }
+        
         IEnumerator Death()
         {
             _animator.SetTrigger("Died");
             yield return new WaitForSeconds(1.3f);
             Destroy(gameObject);
+
+            CharacterSpawner._isPlayerAlive = false;
+
+            Dead?.Invoke(this);
         }
 
         protected void OnTriggerEnter(Collider other)

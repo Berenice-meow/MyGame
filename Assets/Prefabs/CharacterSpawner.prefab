@@ -49,4 +49,4 @@ MonoBehaviour:
   _maxSpawnIntervalSec: 10
   _player: {fileID: 2554045527900086007, guid: d6145ec2733456449bca69a4cc6cf443, type: 3}
   _enemy: {fileID: 5172160363298749656, guid: 5347e3a767a20694a9889ea7a061a6d3, type: 3}
-  _maxCount: 3
+  _maxCount: 2
