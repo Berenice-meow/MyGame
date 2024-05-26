@@ -34,6 +34,5 @@ public class TimerUI : MonoBehaviour
 
         int time = (int)(GameDurationSeconds - TimerSeconds);
         _outputText.text = string.Format(_format, time / 60, time % 60);
- 
     }
 }
