@@ -12,21 +12,20 @@ namespace MyGame.Spawner
 
         [SerializeField] private int _maxCount = 3;                 
 
-        private float _currentSpawnTimerSec;
+        //private float _currentSpawnTimerSec;
         private int _currentCount;
-        public static bool _isPlayerAlive;
 
         protected void Awake()
         {  
             for (_currentCount = 0; _currentCount < _maxCount; _currentCount ++)
             {
-                if (_isPlayerAlive == false && Random.Range(0, 2) == 0)
+                var player = FindObjectOfType<PlayerCharacter>();
+                if (!player && Random.Range(0, 2) == 0)
                 {
                     var randomPointInsideRange = Random.insideUnitCircle * _range;
                     var randomPosition = new Vector3(randomPointInsideRange.x, 1, randomPointInsideRange.y) + transform.position;
 
                     var character = Instantiate(_player, randomPosition, Quaternion.identity);
-                    _isPlayerAlive = true;
                     character.OnSpawned += OnCharacterSpawned;
                 }
                 else
