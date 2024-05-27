@@ -36,8 +36,6 @@ namespace MyGame
 
         public event Action<BaseCharacter> OnSpawned;
 
-        public CharacterSpawner _isPlayerSpawned;
-
         public HealthBar healthBar;
 
         protected void Awake()
@@ -99,10 +97,9 @@ namespace MyGame
             _animator.SetTrigger("Died");
             yield return new WaitForSeconds(1.3f);
             Destroy(gameObject);
-
-            CharacterSpawner._isPlayerAlive = false;
-
+            
             Dead?.Invoke(this);
+            gameObject.GetComponent<BaseCharacter>().Spawn(this);
         }
 
         protected void OnTriggerEnter(Collider other)
