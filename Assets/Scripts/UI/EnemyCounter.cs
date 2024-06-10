@@ -10,18 +10,26 @@ namespace MyGame.UI
     {
         [SerializeField] private TextMeshProUGUI _outputText;
         private string _format;
+        private int _counter;
 
         public List<EnemyCharacter> Enemies { get; private set; }
 
         private void Start()
         {
+            Enemies = FindObjectsOfType<EnemyCharacter>().ToList();
+            foreach (var enemy in Enemies)
+                enemy.Dead += OnEnemyDead;
+
             _format = _outputText.text;
+            _counter = Enemies.Count;
+            _outputText.text = string.Format(_format, _counter);
         }
 
-        private void Update()
+        private void OnEnemyDead(BaseCharacter sender)
         {
-            Enemies = FindObjectsOfType<EnemyCharacter>().ToList();
-            _outputText.text = string.Format(_format, Enemies.Count.ToString());
+            var enemy = sender as EnemyCharacter;
+            enemy.Dead -= OnEnemyDead;
+            _outputText.text = string.Format(_format, --_counter);
         }
     }
 }
