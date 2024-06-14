@@ -13,14 +13,15 @@ namespace MyGame
     public abstract class BaseCharacter : MonoBehaviour
     {
         [SerializeField] private Animator _animator;
-
         [SerializeField] private Weapon _baseWeaponPrefab;
-
         [SerializeField] private Transform _hand;
 
         [SerializeField] private float _maxHp = 50f;
-
         [SerializeField] private float _lowHpCoefficient = 30f;
+
+        [SerializeField] private GameObject _exposionParticles;
+        [SerializeField] private AudioSource _deathSound;
+        [SerializeField] private AudioSource _pickUpSound;
 
         private float _currentHp;
         private float _lowHp;
@@ -33,7 +34,6 @@ namespace MyGame
         private Weapon _currentWeapon;
 
         public event Action<BaseCharacter> Dead;
-
         public event Action<BaseCharacter> OnSpawned;
 
         public HealthBar healthBar;
@@ -95,8 +95,11 @@ namespace MyGame
         IEnumerator Death()
         {
             _animator.SetTrigger("Died");
+            _deathSound.Play();
+            
             yield return new WaitForSeconds(1.3f);
             Destroy(gameObject);
+            GameObject explosion = Instantiate (_exposionParticles, transform.position, transform.rotation);
             
             Dead?.Invoke(this);
             gameObject.GetComponent<BaseCharacter>().Spawn(this);
@@ -115,6 +118,8 @@ namespace MyGame
             else if(LayerUtils.IsPickUp(other.gameObject))      // Проверяем если сталкиваемся не с пулей, а с подбираемым объектом
             {
                 var pickUp = other.gameObject.GetComponent<PickUpItem>();
+                _pickUpSound.Play();
+
                 pickUp.PickUp(this);
 
                 Destroy(other.gameObject);                      // Уничтожаем ГО оружия после того как подобрали его

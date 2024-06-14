@@ -28,6 +28,8 @@ namespace MyGame.GameManager
                 enemy.Dead += OnEnemyDead;
 
             Timer.TimeEnd += PlayerLose;
+
+            Time.timeScale = 1f;
         }
 
         private void OnPlayerDead(BaseCharacter sender)

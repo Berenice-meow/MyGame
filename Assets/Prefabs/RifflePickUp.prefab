@@ -427,6 +427,8 @@ MonoBehaviour:
   _bulletMaxFlyDistance: 60
   _bulletFlySpeed: 15
   _bulletSpawnPosition: {fileID: 0}
+  _shootParticle: {fileID: 0}
+  _shootSound: {fileID: 0}
 --- !u!95 &4959008199299088983
 Animator:
   serializedVersion: 5

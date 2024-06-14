@@ -6,8 +6,12 @@ namespace MyGame.GameManager
     {
         [SerializeField] private GameManager _gameManager;
 
+        [SerializeField] private AudioSource _loseSound;
+
         protected void Start()
         {
+            _loseSound.Play();
+
             _gameManager.Lose += ShowPanel;
             gameObject.SetActive(false);
         }
