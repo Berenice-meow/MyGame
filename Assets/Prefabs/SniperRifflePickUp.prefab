@@ -344,6 +344,8 @@ MonoBehaviour:
   _bulletMaxFlyDistance: 100
   _bulletFlySpeed: 15
   _bulletSpawnPosition: {fileID: 0}
+  _shootParticle: {fileID: 0}
+  _shootSound: {fileID: 0}
 --- !u!1 &6602179494027417772
 GameObject:
   m_ObjectHideFlags: 0

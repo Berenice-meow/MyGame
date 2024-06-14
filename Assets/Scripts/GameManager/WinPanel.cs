@@ -6,8 +6,12 @@ namespace MyGame.GameManager
     {
         [SerializeField] private GameManager _gameManager;
 
+        [SerializeField] private AudioSource _winSound;
+
         protected void Start()
         {
+            _winSound.Play();
+
             _gameManager.Win += ShowPanel;
             gameObject.SetActive(false);
         }

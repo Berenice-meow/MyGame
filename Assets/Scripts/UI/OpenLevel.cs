@@ -9,6 +9,8 @@ public class OpenLevel : MonoBehaviour
 
     [SerializeField] private List<int> _levelList = new List<int>();
 
+    [SerializeField] private AudioSource _buttonSound;
+
     protected void Start()
     {
         _openLevelButton = GetComponent<Button>();
@@ -18,6 +20,8 @@ public class OpenLevel : MonoBehaviour
     
     private void OpenFirstLevel()
     {
+        _buttonSound.Play();
+
         int level = _levelList[0];
         SceneManager.LoadScene(level);
         Time.timeScale = 1f;

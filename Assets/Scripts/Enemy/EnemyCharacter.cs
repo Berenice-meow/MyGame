@@ -7,8 +7,9 @@ using UnityEngine;
 namespace MyGame.Enemy
 {
     [RequireComponent(typeof(EnemyDirectionController), typeof(EnemyAIController))]
+
     public class EnemyCharacter : BaseCharacter
     {
-        
+
     }
 }

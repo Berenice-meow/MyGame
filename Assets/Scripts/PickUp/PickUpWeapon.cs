@@ -5,8 +5,7 @@ namespace MyGame.PickUp
 {
     public class PickUpWeapon : PickUpItem
     {
-        [SerializeField]
-        private Weapon _weaponPrefab;
+        [SerializeField] private Weapon _weaponPrefab;
 
         public override void PickUp(BaseCharacter character)
         {
