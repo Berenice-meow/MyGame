@@ -1,67 +1,62 @@
-﻿using UnityEngine;
+﻿using MyGame.Timer;
+using UnityEngine;
 
 namespace MyGame.Movement
 {
-    [RequireComponent(typeof(CharacterController))]
-    public class CharacterMovementController : MonoBehaviour
+    public class CharacterMovementController : IMovementController
     {
-        private static readonly float SqrEpsilon = Mathf.Epsilon * Mathf.Epsilon;   //Задали статичное неизменяемое поле
+        private static readonly float SqrEpsilon = Mathf.Epsilon * Mathf.Epsilon;
 
-        [SerializeField] private float _maxRadiansDelta = 10f;                      // Rotation speed
+        private readonly ITimer _timer;
 
-        [SerializeField] private float _baseSpeed = 4f;                             // Character's speed
+        private readonly float _maxRadiansDelta;
+        private readonly float _baseSpeed;
 
         private float _currentSpeed;
         
         private float _boostTime;
         private float _boostSpeed;
 
-        public Vector3 MovementDirection { get; set; }
-        public Vector3 LookDirection { get; set; }
 
-        private CharacterController _characterController;
-
-        protected void Awake()
+        public CharacterMovementController(ICharacterConfig config, ITimer timer)
         {
-            _characterController = GetComponent<CharacterController>();
-
+            _maxRadiansDelta = config.MaxRadiansDelta;
+            _baseSpeed = config.BaseSpeed;
+            
             _currentSpeed = _baseSpeed;
+
+            _timer = timer;
         }
 
-        protected void Update()
+        public Vector3 Translate(Vector3 movementDirection) 
         {
-            Translate();
-            if (_maxRadiansDelta > 0 && LookDirection != Vector3.zero)  //Если есть направление и игрок куда-то двигается, то
-                Rotate();                                           //то вызываем метод Rotate (определяем его ниже в коде)
-        }
-
-        private void Translate() 
-        {
-            var delta = MovementDirection * _currentSpeed * Time.deltaTime;    // Time.deltaTime (вспомогательное поле в Юнити) - время, прошедшее с предыдущего кадра
-
+            var delta = movementDirection * _currentSpeed * _timer.DeltaTime;   
             if (_boostTime > 0)
             {
-                _boostTime -= Time.deltaTime;
+                _boostTime -= _timer.DeltaTime;
                 delta *= _boostSpeed;
-            }
-
-            _characterController.Move(delta);
+            }  
+            return delta;
         }
 
-        private void Rotate()
+        public Quaternion Rotate(Quaternion currentRotation, Vector3 lookDirection)
         {
-            var currentLookDirection = transform.rotation * Vector3.forward;        //Получаем текущее направление взгляда. Тут transform - поле, кот. идет от нашего Монобеха
-            float sqrMagnitude = (currentLookDirection - LookDirection).sqrMagnitude;   //Смотрим на сколько мы повернулись. Если поворот незначительный, то не учитываем его
-
-            if (sqrMagnitude > SqrEpsilon)
+            if (_maxRadiansDelta > 0 && lookDirection != Vector3.zero)
             {
-                var newRotation = Quaternion.Slerp(
-                    transform.rotation, 
-                    Quaternion.LookRotation(LookDirection, Vector3.up),
-                    _maxRadiansDelta * Time.deltaTime);
+                var currentLookDirection = currentRotation * Vector3.forward;
+                float sqrMagnitude = (currentLookDirection - lookDirection).sqrMagnitude; 
 
-                transform.rotation = newRotation;
-            }    
+                if (sqrMagnitude > SqrEpsilon)
+                {
+                    var newRotation = Quaternion.Slerp(
+                        currentRotation,
+                        Quaternion.LookRotation(lookDirection, Vector3.up),
+                        _maxRadiansDelta * _timer.DeltaTime);
+
+                    return newRotation;
+                }
+            }
+            return currentRotation;
         }
 
         public void Boost(float boostTime, float boostSpeed)

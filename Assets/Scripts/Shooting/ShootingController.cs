@@ -1,70 +1,45 @@
-﻿using UnityEngine;
+﻿using MyGame.Timer;
+using UnityEngine;
 
 namespace MyGame.Shooting
 {
-    public class ShootingController : MonoBehaviour
+    public class ShootingController
     {
         public bool HasTarget => _target != null;
-        public Vector3 TargetPosition => _target.transform.position;
+        public Vector3 TargetPosition => _target.Transform.Position;
         
-        private Weapon _weapon;
+        private WeaponModel _weapon;
 
-        private Collider[] _colliders = new Collider[2];
-        // Размер массива - [2], т.к. одним из объектов можем быть мы (игрок) или сам враг
-        // Если враг будет искать нас по маске, где ему надо найти только врагов (EnemyMask) - в итоге он увидит себя, а нас не увидит
+        private readonly IShootingTarget _shootingTarget;
+        private readonly ITimer _timer;
+
+        private BaseCharacterModel _target;
         private float _nextShotTimerSec;
-        private GameObject _target;
 
-        protected void Update()
+
+        public ShootingController(IShootingTarget shootingTarget, ITimer timer)
         {
-            _target = GetTarget();
+            _shootingTarget = shootingTarget;
+            _timer = timer;
+        }
 
-            _nextShotTimerSec -= Time.deltaTime;
+        public void TryShoot(Vector3 position)
+        {
+            _target = _shootingTarget.GetTarget(position, _weapon.Description.ShootRadius);
+
+            _nextShotTimerSec -= _timer.DeltaTime;
             if (_nextShotTimerSec < 0 )
             {
                 if (HasTarget)
-                    _weapon.Shoot(TargetPosition);
-                /* Было:
-                var target = transform.forward * 100f;
-                _weapon.Shoot(target);
-                */
+                    _weapon.Shoot(position, TargetPosition);
 
-                _nextShotTimerSec = _weapon.ShootFrequencySec;
+                _nextShotTimerSec = _weapon.Description.ShootFrequencySec;
             }
         }
 
-        public void SetWeapon(Weapon weaponPrefab, Transform hand)
+        public void SetWeapon(WeaponModel weapon)
         {
-            if (_weapon != null)
-                Destroy(_weapon.gameObject);
-
-            _weapon = Instantiate(weaponPrefab, hand);
-            _weapon.transform.localPosition = Vector3.zero;
-            _weapon.transform.localRotation = Quaternion.identity;
-        }
-
-        private GameObject GetTarget() 
-        {
-            GameObject target = null;
-
-            var position = _weapon.transform.position;
-            var radius = _weapon.ShootRadius;
-            var mask = LayerUtils.CharactersMask;
-
-            var size = Physics.OverlapSphereNonAlloc(position, radius, _colliders, mask);    // Данный метод возвращает количество найденных коллайдеров. Для [2]: мб 0, 1 или 2
-            if (size > 1 )
-            {
-                for (int i = 0; i < size; i++)
-                {
-                    if (_colliders[i].gameObject !=  gameObject)    // Чтобы игрок не стрелял сам в себя (и враг тоже)
-                    {
-                        target = _colliders[i].gameObject;
-                        break;
-                    }
-                }
-            }
-            return target;
-
+            _weapon = weapon;
         }
     }
 }

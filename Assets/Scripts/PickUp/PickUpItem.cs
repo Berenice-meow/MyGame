@@ -7,15 +7,9 @@ namespace MyGame.PickUp
     {
         public event Action<PickUpItem> OnPickedUp;
 
-        public virtual void PickUp(BaseCharacter character)
+        public virtual void PickUp(BaseCharacterView character)
         {
             OnPickedUp?.Invoke(this);
-
-            /* 
-            Запись выше равноценна следующей записи:
-            if (OnPickedUp != null)
-                OnPickedUp.Invoke(this);
-            */ 
         }
     }
 }

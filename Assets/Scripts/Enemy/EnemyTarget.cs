@@ -8,12 +8,12 @@ namespace MyGame.Enemy
 
         private readonly float _viewRadius;
         private readonly Transform _agentTransform;
-        private readonly PlayerCharacter _player;
-        private readonly EnemyCharacter _agent;
+        private readonly PlayerCharacterView _player;
+        private readonly EnemyCharacterView _agent;
 
         private readonly Collider[] _colliders = new Collider[10];
 
-        public EnemyTarget(Transform agentTransform, PlayerCharacter player, float viewRadius, EnemyCharacter enemy)
+        public EnemyTarget(Transform agentTransform, PlayerCharacterView player, float viewRadius, EnemyCharacterView enemy)
         {
             _agentTransform = agentTransform;
             _player = player;

@@ -6,9 +6,9 @@ namespace MyGame.Spawner
 {
     public class CharacterSpawner : BaseSpawner
     {
-        [SerializeField] private PlayerCharacter _player;
+        [SerializeField] private PlayerCharacterView _player;
 
-        [SerializeField] private EnemyCharacter _enemy;
+        [SerializeField] private EnemyCharacterView _enemy;
 
         [SerializeField] private int _maxCount = 3;                 
 
@@ -19,7 +19,7 @@ namespace MyGame.Spawner
         {  
             for (_currentCount = 0; _currentCount < _maxCount; _currentCount ++)
             {
-                var player = FindObjectOfType<PlayerCharacter>();
+                var player = FindObjectOfType<PlayerCharacterView>();
                 if (!player && Random.Range(0, 2) == 0)
                 {
                     var randomPointInsideRange = Random.insideUnitCircle * _range;
