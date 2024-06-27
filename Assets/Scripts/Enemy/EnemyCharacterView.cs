@@ -8,7 +8,7 @@ namespace MyGame.Enemy
 {
     [RequireComponent(typeof(EnemyDirectionController), typeof(EnemyAIController))]
 
-    public class EnemyCharacter : BaseCharacter
+    public class EnemyCharacterView : BaseCharacterView
     {
 
     }

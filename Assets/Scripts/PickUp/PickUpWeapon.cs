@@ -5,12 +5,12 @@ namespace MyGame.PickUp
 {
     public class PickUpWeapon : PickUpItem
     {
-        [SerializeField] private Weapon _weaponPrefab;
+        [SerializeField] private WeaponFactory _weaponFactory;
 
-        public override void PickUp(BaseCharacter character)
+        public override void PickUp(BaseCharacterView character)
         {
             base.PickUp(character);
-            character.SetWeapon(_weaponPrefab);
+            character.SetWeapon(_weaponFactory);
         }
     }
 }

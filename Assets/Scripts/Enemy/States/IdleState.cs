@@ -4,11 +4,11 @@ namespace MyGame.Enemy.States
 {
     public class IdleState : BaseState
     {
-        private readonly BaseCharacter _baseCharacter;
+        private readonly BaseCharacterModel _baseCharacter;
 
         private float _fleeSpeed = 0f;
 
-        public IdleState(BaseCharacter baseCharacter)
+        public IdleState(BaseCharacterModel baseCharacter)
         {
             _baseCharacter = baseCharacter;
         }

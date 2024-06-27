@@ -7,13 +7,13 @@ namespace MyGame.Enemy.States
     {
         private readonly EnemyTarget _target;
         private readonly EnemyDirectionController _enemyDirectionController;
-        private readonly BaseCharacter _baseCharacter;
+        private readonly BaseCharacterModel _baseCharacter;
 
         private Vector3 _currentPoint;
 
         private float _fleeSpeed = 7f;
 
-        public FleeState(EnemyTarget target, EnemyDirectionController enemyDirectionController, BaseCharacter baseCharacter)
+        public FleeState(EnemyTarget target, EnemyDirectionController enemyDirectionController, BaseCharacterModel baseCharacter)
         {
             _target = target;
             _enemyDirectionController = enemyDirectionController;

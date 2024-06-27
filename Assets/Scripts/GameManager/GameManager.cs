@@ -11,15 +11,15 @@ namespace MyGame.GameManager
         public event Action Win;
         public event Action Lose;
 
-        public PlayerCharacter Player {  get; private set; }
-        public List<EnemyCharacter> Enemies { get; private set;}
+        public PlayerCharacterView Player {  get; private set; }
+        public List<EnemyCharacterView> Enemies { get; private set;}
 
         public TimerUI Timer { get; private set; }
 
         protected void Start()
         {
-            Player = FindObjectOfType<PlayerCharacter>();
-            Enemies = FindObjectsOfType<EnemyCharacter>().ToList();
+            Player = FindObjectOfType<PlayerCharacterView>();
+            Enemies = FindObjectsOfType<EnemyCharacterView>().ToList();
             Timer = FindObjectOfType<TimerUI>();
 
             Player.Dead += OnPlayerDead;
@@ -32,16 +32,16 @@ namespace MyGame.GameManager
             Time.timeScale = 1f;
         }
 
-        private void OnPlayerDead(BaseCharacter sender)
+        private void OnPlayerDead(BaseCharacterView sender)
         {
             Player.Dead -= OnPlayerDead;
             Lose?.Invoke();
             Time.timeScale = 0f;
         }
 
-        private void OnEnemyDead(BaseCharacter sender)
+        private void OnEnemyDead(BaseCharacterView sender)
         {
-            var enemy = sender as EnemyCharacter;
+            var enemy = sender as EnemyCharacterView;
             Enemies.Remove(enemy);
 
             enemy.Dead -= OnEnemyDead;

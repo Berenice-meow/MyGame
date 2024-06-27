@@ -12,11 +12,11 @@ namespace MyGame.UI
         private string _format;
         private int _counter;
 
-        public List<EnemyCharacter> Enemies { get; private set; }
+        public List<EnemyCharacterView> Enemies { get; private set; }
 
         private void Start()
         {
-            Enemies = FindObjectsOfType<EnemyCharacter>().ToList();
+            Enemies = FindObjectsOfType<EnemyCharacterView>().ToList();
             foreach (var enemy in Enemies)
                 enemy.Dead += OnEnemyDead;
 
@@ -27,7 +27,7 @@ namespace MyGame.UI
 
         private void OnEnemyDead(BaseCharacter sender)
         {
-            var enemy = sender as EnemyCharacter;
+            var enemy = sender as EnemyCharacterView;
             enemy.Dead -= OnEnemyDead;
             _outputText.text = string.Format(_format, --_counter);
         }

@@ -8,20 +8,20 @@ namespace MyGame.Camera
         [SerializeField] private Vector3 _followCameraOffset = Vector3.zero;
         [SerializeField] private Vector3 _rotationOffset = Vector3.zero;
 
-        [SerializeField] private PlayerCharacter _player;
+        [SerializeField] private PlayerCharacterView _player;
 
-        /*
+        
         protected void Awake()
         {
             if (_player == null)
                 throw new NullReferenceException($"Follow camera can't follow null player - {nameof(_player)}");
         }
-        */
+        
 
         protected void LateUpdate()
         {
             if (_player == null)
-                _player = FindObjectOfType<PlayerCharacter>();
+                _player = FindObjectOfType<PlayerCharacterView>();
             else
             {
                 Vector3 targetRotate = _rotationOffset - _followCameraOffset;
